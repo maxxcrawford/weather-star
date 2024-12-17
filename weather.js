@@ -3,13 +3,11 @@
 
     console.log(document)
     
-    const partA = "N2I0NDk0M2Y3MDc2ZTEwODAyYjljYmNjYjE2N2YxNTE="; 
-    const partB = atob(partA) // Replace with your API key
-    const cityInput = "tulsa";
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${partB}&units=metric`;
-    const nwsUrl = `https://api.weather.gov/points/36.16,-95.99`;
+    
+    
 
-    function nws() {
+    function nws(coord) {
+        const nwsUrl = `https://api.weather.gov/points/${coord.lat},${coord.lon}`;
         // TODO: Set up NWS 
         // https://www.weather.gov/documentation/services-web-api
         fetch(nwsUrl)
@@ -20,9 +18,14 @@
     }
     
     // Select DOM elements for updating weather details
-    function init() {
+    function init(cityName) {
 
-    nws();
+    const partA = "N2I0NDk0M2Y3MDc2ZTEwODAyYjljYmNjYjE2N2YxNTE="; 
+    const partB = atob(partA) // Replace with your API key
+    const cityInput = cityName || "Tulsa";
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${partB}&units=metric`;
+
+    
 
     const musicButton = document.querySelector(".js-music") 
     const musicPlayer = document.querySelector(".music") 
@@ -37,6 +40,8 @@
     });
 
     
+    
+    const cityElement = document.querySelector('.js-city');
     const conditionElement = document.querySelector('.js-condition');
     const temperatureElement = document.querySelector('.js-temperature');
     const temperatureFeelsElement = document.querySelector('.js-temperature-feels');
@@ -88,12 +93,12 @@
             console.log(data)
             
 
-            const { name, main, weather, wind, visibility } = data;
+            const { coord, name, main, weather, wind, visibility } = data;
 
             console.log(main.temp_max)
 
             // Update DOM with weather data
-            // cityElement.textContent = name;
+            cityElement.textContent = name;
             conditionElement.textContent = weather[0].description;
             temperatureElement.textContent = celsiusToFahrenheit(main.temp);
             temperatureFeelsElement.textContent = celsiusToFahrenheit(main.feels_like);
@@ -104,6 +109,9 @@
             windElement.textContent = `${kmToMiles(wind.speed)} mph`;
             visibilityElement.textContent = `${kmToMiles((visibility) / 1000)} mi`;
             dateElement.textContent = getFormattedDate();
+
+            nws(coord);
+            
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -112,16 +120,23 @@
         });
     }
 
-    
+    function updateCity() {
+        console.log("updateCity")
+        // init("tulsa");
+    }
 
 
     document.addEventListener("DOMContentLoaded", (event) => {
         console.log("DOM fully loaded and parsed");
-        init();        
+        // St. Paul
+        init("Tulsa");
 
         // Set Time
         const timeElement = document.querySelector('.js-time');
         setInterval(() => timeElement.innerText = new Date().toLocaleTimeString('en-US'), 1000);
+
+        const buttonCityEdit = document.querySelector('.js-city-edit');
+        buttonCityEdit.addEventListener("click", updateCity, false);
         
     });
 
