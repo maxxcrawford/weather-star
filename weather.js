@@ -23,6 +23,15 @@
     function init() {
 
         nws();
+
+    const musicButton = document.querySelector(".js-music") 
+    const musicPlayer = document.querySelector(".music") 
+
+    musicButton.addEventListener("click", () => {
+        musicPlayer.play();
+        musicButton.classList.toggle("disabled");
+    });
+
     
     const conditionElement = document.querySelector('.js-condition');
     const temperatureElement = document.querySelector('.js-temperature');
@@ -98,6 +107,8 @@
             conditionElement.textContent = "Unable to fetch weather details.";
         });
     }
+
+    
 
 
     document.addEventListener("DOMContentLoaded", (event) => {

@@ -9,8 +9,8 @@
     <script src="weather.js"></script>
   </head>
   <body>
-    <audio autoplay loop>
-      <source src="audio/hum2.wav" type="audio/wav">
+    <audio class="music" autoplay loop>
+      <source src="media/background.mp3" type="audio/mp3">
     </audio>
     <div class="pageborder"></div>
     <div class="distortion"></div>
@@ -20,9 +20,10 @@
     <header></header>
 
     <main>
+        <button class="js-music disabled">&#x1D11E;</button>
         <div class="page">
             <!-- <h1>YOUR CENTRAL FORECAST</h1> -->
-            <H1 data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE FORECAST</H1>
+            <H1 data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE FORECAST </H1>
             
             <br>
             <h2 data-text="CONDITIONS AT TULSA">CONDITIONS AT TULSA</h2>
