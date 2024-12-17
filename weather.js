@@ -22,13 +22,17 @@
     // Select DOM elements for updating weather details
     function init() {
 
-        nws();
+    nws();
 
     const musicButton = document.querySelector(".js-music") 
     const musicPlayer = document.querySelector(".music") 
 
     musicButton.addEventListener("click", () => {
-        musicPlayer.play();
+        if (musicButton.classList.contains("disabled")) {
+            musicPlayer.play();
+        } else {
+            musicPlayer.pause();
+        }
         musicButton.classList.toggle("disabled");
     });
 
