@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="resetstyle.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <title>WEATHER_REPORT</title>
+    <script src="weather.js"></script>
+  </head>
+  <body>
+    <audio autoplay loop>
+      <source src="audio/hum2.wav" type="audio/wav">
+    </audio>
+    <div class="pageborder"></div>
+    <div class="distortion"></div>
+    <div class="genloss"></div>
+    <div class="genloss2"></div>
+
+    <header></header>
+
+    <main>
+        <div class="page">
+            <!-- <h1>YOUR CENTRAL FORECAST</h1> -->
+            <H1 data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE FORECAST</H1>
+            
+            <br>
+            <h2 data-text="CONDITIONS AT TULSA">CONDITIONS AT TULSA</h2>
+            <h2><span class="js-condition">Loading...</span></h2>
+            <h2>TEMP:<span class="js-temperature">--</span>°F
+              &nbsp; FEELS LIKE&trade;:<span class="js-temperature-feels">--</span>°F
+            </h2>
+            <h2>HI:<span class="js-temperature-high">--</span>°F &nbsp;  LO:<span class="js-temperature-low">--</span>°F</h2>
+            <h2>HUMIDITY: <span class="js-humidity">--%</span> </h2>
+            <h2>BAROMETRIC PRESSURE: <span class="js-barometric-pressure">--</span>inHg</h2>
+            <h2>WIND: <span class="js-wind">--</span></h2>
+            <h2>VISIB: <span class="js-visibility">--</span></h2>
+        </div>
+        <div class="divider"></div>
+        <div class="page">
+          <div class="texthoridiv">
+            <h3 class="js-date">Loading...</h3> 
+            <h3><span id='ct7'></span></h3> 
+            <h3 class="js-time"></h3>
+           </div>
+          <!-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam eveniet fugit, quam, odio aperiam debitis, iste vero enim mollitia cumque saepe. Voluptates vero totam quidem neque sit, illo soluta! Itaque.</h3> -->
+        </div>
+    </main>
+
+    <footer></footer>
+    
+    <!--The clock code is modified from here! https://www.plus2net.com/javascript_tutorial/clock.php-->
+  </body>
+</html>
