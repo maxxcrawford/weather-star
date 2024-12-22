@@ -164,7 +164,7 @@
         // const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${partB}&units=metric`;
 
         // http://api.openweathermap.org/geo/1.0/zip?zip={zip code},{country code}&appid={API key}
-        const api = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=${partB}`;
+        const api = `https://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=${partB}`;
         // TODO: Set up NWS 
         // https://www.weather.gov/documentation/services-web-api
         fetch(api)
