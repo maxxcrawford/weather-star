@@ -3,8 +3,40 @@
 
     console.log(document)
     
+    const partA = "N2I0NDk0M2Y3MDc2ZTEwODAyYjljYmNjYjE2N2YxNTE="; 
+    const partB = atob(partA)
+
+    let state = {
+        city: "tulsa"
+    }
+
+    if (!localStorage.getItem("city")) {
+        state = {
+            city: "Tulsa"
+        };
+        localStorage.setItem("city", state.city)
+    } else {
+        // state.city = 
+        const localStorageCity = localStorage.getItem("city");
+        state.city = localStorageCity;
+        console.log("localStorage detected", localStorage.getItem("city"))
+    }    
     
+
+    let modalElement = document.querySelector(".modal");
+    let closeModalButton;
+    // let bodyElement = document.querySelector("body");
     
+    const modal = {
+        close: ()=> {
+            console.log("modal.close")
+            modalElement.classList.remove("is-visible");
+        },
+        open: ()=> {
+            console.log("modal.open", modalElement)
+            modalElement.classList.add("is-visible");
+        }
+    }
 
     function nws(coord) {
         const nwsUrl = `https://api.weather.gov/points/${coord.lat},${coord.lon}`;
@@ -18,14 +50,14 @@
     }
     
     // Select DOM elements for updating weather details
-    function init(cityName) {
+    function init() {
 
-    const partA = "N2I0NDk0M2Y3MDc2ZTEwODAyYjljYmNjYjE2N2YxNTE="; 
-    const partB = atob(partA) // Replace with your API key
-    const cityInput = cityName || "Tulsa";
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${partB}&units=metric`;
-
+    console.log("init", state)
+        
+     // Replace with your API key
+    // const cityInput = cityName || "Tulsa";
     
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&appid=${partB}&units=metric`;
 
     const musicButton = document.querySelector(".js-music") 
     const musicPlayer = document.querySelector(".music") 
@@ -120,23 +152,59 @@
         });
     }
 
-    function updateCity() {
+    function updateCity(event) {
+        event.preventDefault();
+        
         console.log("updateCity")
-        // init("tulsa");
+
+        
+        const zipCodeInput = document.getElementById("zipInput");
+        const zipCode = zipCodeInput.value || "74172";
+
+        // const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${partB}&units=metric`;
+
+        // http://api.openweathermap.org/geo/1.0/zip?zip={zip code},{country code}&appid={API key}
+        const api = `http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=${partB}`;
+        // TODO: Set up NWS 
+        // https://www.weather.gov/documentation/services-web-api
+        fetch(api)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            
+            if (data.name) {
+                state.city = data.name
+                localStorage.setItem("city", state.city)
+                init();
+                closeModalButton.click();
+            }
+
+            // cityName = data.name
+            
+        });
+
     }
 
 
     document.addEventListener("DOMContentLoaded", (event) => {
         console.log("DOM fully loaded and parsed");
         // St. Paul
-        init("Tulsa");
+        init();
 
         // Set Time
         const timeElement = document.querySelector('.js-time');
         setInterval(() => timeElement.innerText = new Date().toLocaleTimeString('en-US'), 1000);
 
-        const buttonCityEdit = document.querySelector('.js-city-edit');
-        buttonCityEdit.addEventListener("click", updateCity, false);
+        const buttonCityEdit = document.querySelector('.js-city');
+        buttonCityEdit.addEventListener("click", modal.open, false);
+
+        closeModalButton = document.getElementById("closeModal");
+        closeModalButton.addEventListener("click", modal.close, false);
+
+        const zidSubmitInput = document.getElementById("zipSubmit");
+        zidSubmitInput.addEventListener("click", updateCity, false);
+
+        modalElement = document.querySelector(".modal");
         
     });
 

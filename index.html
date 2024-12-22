@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="resetstyle.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <!-- <link rel="shortcut icon" type="image/png" href="images/favicon.png"> -->
     <title>WEATHER_REPORT</title>
     <script src="weather.js"></script>
   </head>
@@ -17,16 +17,17 @@
     <div class="genloss"></div>
     <div class="genloss2"></div>
 
-    <header></header>
 
     <main>
         <button class="js-music disabled">&#x1D11E;</button>
         <div class="page">
             <!-- <h1>YOUR CENTRAL FORECAST</h1> -->
-            <H1 data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE FORECAST </H1>
+            <h1 data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE FORECAST </h1>
             
             <br>
-            <h2 data-text="CONDITIONS AT TULSA">CONDITIONS AT <span class="js-city"></span> <button class="js-city-edit">&#x270E;</button></h2>
+            <h2 data-text="CONDITIONS AT TULSA">CONDITIONS AT <span class="js-city"></span> 
+              <!-- <button class="js-city-edit">&#x270E;</button> -->
+            </h2>
             <h2><span class="js-condition">Loading...</span></h2>
             <h2>TEMP:<span class="js-temperature">--</span>°F
               &nbsp; FEELS LIKE&trade;:<span class="js-temperature-feels">--</span>°F
@@ -46,6 +47,17 @@
            </div>
           <!-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam eveniet fugit, quam, odio aperiam debitis, iste vero enim mollitia cumque saepe. Voluptates vero totam quidem neque sit, illo soluta! Itaque.</h3> -->
         </div>
+
+        <div class="modal " autocomplete="off">
+          <form action="">
+            <button class="closeModalButton" id="closeModal">X</button>
+            <label for="city">ZIP Code</label>
+            <input id="zipInput" type="zip" placeholder="12345">
+            <button id="zipSubmit" type="submit">Save</button>
+            
+          </form>
+        </div>
+        
     </main>
 
     <footer>
