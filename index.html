@@ -4,71 +4,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-    <title>WEATHER_REPORT</title>
-    <script src="weather.js"></script>
+    <title>WEATHER STAR III</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="resetstyle.css">
     <link rel="stylesheet" href="style.css">
+
+    <script src="weather.js"></script>
   </head>
   <body class="min-h-screen">
+
+    <!-- Audio -->
     <audio class="music" loop>
       <source src="media/background.mp3" type="audio/mp3">
     </audio>
+
+    <!-- VHS FX -->
     <div class="pageborder"></div>
     <div class="distortion"></div>
     <div class="genloss"></div>
     <div class="genloss2"></div>
 
-
-    <main class="pt-8">
-        <button class="js-music disabled fixed left-10 top-2 text-7xl">&#x1D11E;</button>
-        <div class="page ">
-            <!-- <h1>YOUR CENTRAL FORECAST</h1> -->
-             <div class="max-w-screen-lg text-center mb-8">
-              <h1 class="text-2xl md:text-3xl font-bold " data-text="NAT'L WEATHER SERVICE FORECAST">NAT’L WEATHER SERVICE&nbsp;FORECAST </h1>
-             </div>
-            
-            
-            <div class="flex flex-col gap-6 lg:gap-3 text-4xl lg:text-[40px]">
-              <h2 data-text="CONDITIONS AT TULSA">CONDITIONS AT <span class="js-city underline underline-offset-4 decoration-4 decoration-white"></span> 
-              <!-- <button class="js-city-edit">&#x270E;</button> -->
-            </h2>
-            <h2><span class="js-condition">Loading...</span></h2>
-            <h2>TEMP:<span class="js-temperature">--</span>°F
-              &nbsp; FEELS LIKE&trade;:<span class="js-temperature-feels">--</span>°F
-            </h2>
-            <h2>HI:<span class="js-temperature-high">--</span>°F &nbsp;  LO:<span class="js-temperature-low">--</span>°F</h2>
-            <h2>HUMIDITY: <span class="js-humidity">--%</span> </h2>
-            <h2>BAROMETRIC PRESSURE: <span class="js-barometric-pressure">--</span>inHg</h2>
-            <h2>WIND: <span class="js-wind">--</span></h2>
-            <h2>VISIB: <span class="js-visibility">--</span></h2>
-            </div>
+    <div class="wrapper">
+      <!-- Content -->
+      <header class="max-w-screen-lg px-8 mx-auto py-8 pr-24">
+        <button class="js-music disabled absolute sm:fixed right-12 top-2 text-7xl">&#x1D11E;</button>
+        <div class="sm:text-center md:bg-[#060d60]/40 py-1">
+          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold italic">
+            NAT’L WEATHER SERVICE&nbsp;FORECAST
+          </h1>
         </div>
-        <div class="divider"></div>
-        <div class="page pb-8">
+      </header>
+
+      <main>
+        <!-- Weather Conditions -->
+        <section class="max-w-screen-lg px-8 mx-auto">
+            <div class="flex flex-col gap-6 lg:gap-3 text-4xl lg:text-[40px]">
+                <h2 class="flex flex-col md:flex-row">
+                  <span>CONDITIONS AT&nbsp;</span> 
+                  <span class="js-city underline underline-offset-4 decoration-4 decoration-white"></span> 
+                </h2>
+              <h2>
+                <span class="js-condition">Loading...</span>
+              </h2>
+              <h2 class="flex flex-col md:flex-row md:gap-16">
+                <span>
+                  TEMP:<span class="js-temperature">--</span>°F
+                </span>
+                <span>
+                  FEELS LIKE&trade;:<span class="js-temperature-feels">--</span>°F
+                </span>
+              </h2>
+              
+              <h2 class="flex flex-col md:flex-row md:gap-16">
+                <span>HI:<span class="js-temperature-high">--</span>°F</span>
+                <span>LO:<span class="js-temperature-low">--</span>°F</span>
+              </h2>
+              <h2>
+                HUMIDITY: <span class="js-humidity">--%</span> 
+              </h2>
+              <h2>
+                BAROMETRIC PRESSURE: <span class="js-barometric-pressure">--</span>inHg
+              </h2>
+              <h2>
+                WIND: <span class="js-wind">--</span>
+              </h2>
+              <h2>
+                VISIB: <span class="js-visibility">--</span>
+              </h2>
+            </div>
+        </section>
+        <div class="divider mb-2"></div>
+        <!-- Time / Date -->
+        <section class="max-w-screen-lg px-8 mx-auto pb-8">
           <div class="texthoridiv text-4xl flex flex-col lg:flex-row space-between gap-2">
             <h3 class="js-date">Loading...</h3> 
             <h3><span id='ct7'></span></h3> 
             <h3 class="js-time"></h3>
-           </div>
+          </div>
           <!-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam eveniet fugit, quam, odio aperiam debitis, iste vero enim mollitia cumque saepe. Voluptates vero totam quidem neque sit, illo soluta! Itaque.</h3> -->
-        </div>
+        </section>
 
-        <div class="modal text-3xl w-full max-w-sm p-8" autocomplete="off">
+        <div class="modal text-3xl w-[90%] max-w-sm p-8" autocomplete="off">
           <form action="">
             <button class="closeModalButton top-4 right-6 absolute" id="closeModal">X</button>
             <label class="block mb-2" for="city">ZIP Code</label>
             <input class="mb-8 block border border-white p-2 w-32" id="zipInput" type="zip" placeholder="12345">
             <button class="bg-white text-black px-6 py-2 " id="zipSubmit" type="submit">Save</button>
           </form>
-        </div>
-        
-    </main>
+        </div>        
+      </main>
 
-    <footer class="lg:absolute bottom-0 right-4 text-right pr-8 pb-8">
-      <a class="text-xl" href="https://github.com/maxxcrawford/weather-star/">source</a>
-    </footer>
-    
-    <!--The clock code is modified from here! https://www.plus2net.com/javascript_tutorial/clock.php-->
+      <footer class="w-full pt-8 md:pt-0 px-8 mx-auto pb-8 opacity-80 flex flex-col md:flex-row gap-px md:gap-4 md:items-center">
+        <a class="md:mr-auto mb-2 md:mb-0 opacity-60 blur-[0.5px]" href="https://en.wikipedia.org/wiki/WeatherStar#Weather_Star_III"><img class="block w-auto h-5 " src="/images/weather-star.png" alt=""></a>
+        <a class="text-xl italic" href="https://github.com/maxxcrawford/weather-star/">github</a>
+        <a class="text-xl italic" href="https://unworld.neocities.org/">unworld</a>
+      </footer>
+    </div>
   </body>
 </html>

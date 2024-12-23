@@ -304,11 +304,12 @@ main {
 }
 
 .page {
-  width: 100%;
+  /* width: 100%;
   margin: 0 auto;
   width: 70%;
-  height: auto;
+  height: auto; */
 }
+
 .weatherboxwrap {
   display: flex;
   justify-content: center;
@@ -375,15 +376,23 @@ hr {
 .modal {
   display: none;
   position: absolute;
-  /* inset: 20px; */
-  background-color: red;
   position: absolute;
-  top: 50%; right: 50%;
-  transform: translate(50%,-50%);
-  box-shadow: 0 0 50px white;
+  top: 1rem;
+  right: 50%;
+  width: 90%;
+
+  transform: translate(50%,0);
+  box-shadow: 0 0 50px #f937e386;
   outline: 2px solid white;
   background-image: radial-gradient(circle, #2300a1, #0b00ac);
   background-color: black;
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    top: 50%; right: 50%;
+    transform: translate(50%,-50%);
+  }
 }
 
 .modal.is-visible {
@@ -422,12 +431,9 @@ hr {
   cursor: pointer;
 }
 
-/*FOOTER*/
-
-footer  {
-  opacity: 0.85;
-}
-
-footer a {
-  transform: rotate(270deg);
+/*  */
+.wrapper {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
