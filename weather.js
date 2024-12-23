@@ -7,7 +7,7 @@
     const partB = atob(partA)
 
     let state = {
-        city: "tulsa",
+        city: "Tulsa",
         units: "imperial"
     }
 
@@ -84,6 +84,8 @@
     
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&appid=${partB}&units=${state.units}`;
 
+    console.log(apiUrl)
+
     const musicButton = document.querySelector(".js-music") 
     const musicPlayer = document.querySelector(".music") 
 
@@ -151,7 +153,6 @@
 
             console.log(data)
             
-
             const { coord, name, main, weather, wind, visibility, sys } = data;
 
             console.log(main.temp_max)
