@@ -89,10 +89,10 @@
         </section>
 
         <div class="modal text-3xl w-[90%] max-w-sm p-8" autocomplete="off">
-          <form action="">
+          <form id="updateCityForm" action="">
             <button class="closeModalButton top-4 right-6 absolute" id="closeModal">X</button>
             <label class="block mb-2" for="city">ZIP Code</label>
-            <input class="mb-8 block border border-white p-2 w-32" id="zipInput" type="zip" placeholder="12345">
+            <input maxlength="5" class="mb-8 block border border-white p-2 w-32" id="zipInput" type="zip" placeholder="12345">
             <button class="bg-white text-black px-6 py-2 " id="zipSubmit" type="submit">Save</button>
           </form>
         </div>        

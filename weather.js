@@ -1,7 +1,5 @@
 (function () {
     "use strict";
-
-    console.log(document)
     
     const partA = "N2I0NDk0M2Y3MDc2ZTEwODAyYjljYmNjYjE2N2YxNTE="; 
     const partB = atob(partA)
@@ -22,7 +20,6 @@
         state.city = localStorageCity;
         console.log("localStorage detected", localStorage.getItem("city"))
     }    
-    
 
     let modalElement = document.querySelector(".modal");
     let closeModalButton;
@@ -183,10 +180,8 @@
     }
 
     function updateCity(event) {
-        event.preventDefault();
-        
         console.log("updateCity")
-
+        event.preventDefault();
         
         const zipCodeInput = document.getElementById("zipInput");
         const zipCode = zipCodeInput.value || "74172";
@@ -206,19 +201,16 @@
                 state.city = data.name
                 localStorage.setItem("city", state.city)
                 init();
-                closeModalButton.click();
+                // closeModalButton.click();
+                modalElement = document.querySelector(".modal");
+                modalElement.classList.remove("is-visible");
             }
-
-            // cityName = data.name
-            
         });
-
     }
-
 
     document.addEventListener("DOMContentLoaded", (event) => {
         console.log("DOM fully loaded and parsed");
-        // St. Paul
+
         init();
 
         // Set Time
@@ -233,6 +225,9 @@
 
         const zidSubmitInput = document.getElementById("zipSubmit");
         zidSubmitInput.addEventListener("click", updateCity, false);
+
+        const zidSubmitForm = document.getElementById("updateCityForm");
+        zidSubmitForm.addEventListener("submit", updateCity);
 
         modalElement = document.querySelector(".modal");
         
