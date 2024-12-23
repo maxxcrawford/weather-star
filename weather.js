@@ -7,7 +7,8 @@
     const partB = atob(partA)
 
     let state = {
-        city: "tulsa"
+        city: "tulsa",
+        units: "imperial"
     }
 
     if (!localStorage.getItem("city")) {
@@ -73,12 +74,15 @@
     // Select DOM elements for updating weather details
     function init() {
 
-    console.log("init", state)
+    const tempUnits = (state.units === "imperial" ) ? "ºF" : "ºC";
+
+    console.log(state.units)
+    console.log(tempUnits)
         
      // Replace with your API key
     // const cityInput = cityName || "Tulsa";
     
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&appid=${partB}&units=metric`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&appid=${partB}&units=${state.units}`;
 
     const musicButton = document.querySelector(".js-music") 
     const musicPlayer = document.querySelector(".music") 
@@ -91,8 +95,6 @@
         }
         musicButton.classList.toggle("disabled");
     });
-
-    
     
     const cityElement = document.querySelector('.js-city');
     const conditionElement = document.querySelector('.js-condition');
@@ -105,8 +107,14 @@
     const windElement = document.querySelector('.js-wind');
     const visibilityElement = document.querySelector('.js-visibility');
     const dateElement = document.querySelector('.js-date');
-    
+    const sunriseElement = document.querySelector('.js-sunrise');
+    const sunsetElement = document.querySelector('.js-sunset');
 
+    // js-temperature
+    // js-temperature-feels
+    // js-temperature-high
+    // js-temperature-low
+    
     function celsiusToFahrenheit(celsius) {
         let degress = (celsius * 9/5) + 32;
         return degress.toFixed();
@@ -137,8 +145,6 @@
     const kmToMiles = km => Math.round(km * 0.621371 * 10) / 10;
     const mbToInHg = mb => (mb / 33.8639).toFixed(2);
 
-    
-
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -146,22 +152,24 @@
             console.log(data)
             
 
-            const { coord, name, main, weather, wind, visibility } = data;
+            const { coord, name, main, weather, wind, visibility, sys } = data;
 
             console.log(main.temp_max)
 
             // Update DOM with weather data
             cityElement.textContent = name;
             conditionElement.textContent = weather[0].description;
-            temperatureElement.textContent = celsiusToFahrenheit(main.temp);
-            temperatureFeelsElement.textContent = celsiusToFahrenheit(main.feels_like);
-            temperatureElementHigh.textContent = celsiusToFahrenheit(main.temp_max);
-            temperatureElementLow.textContent = celsiusToFahrenheit(main.temp_min);
+            temperatureElement.textContent = `${Math.round(main.temp)}${tempUnits}`;
+            temperatureFeelsElement.textContent = `${Math.round(main.feels_like)}${tempUnits}`;
+            temperatureElementHigh.textContent = `${Math.round(main.temp_max)}${tempUnits}`;
+            temperatureElementLow.textContent = `${Math.round(main.temp_min)}${tempUnits}`;
             humidityElement.textContent = `${main.humidity}%`;
             pressureElement.textContent = mbToInHg(main.pressure);
-            windElement.textContent = `${getWindDirection(wind.deg)} ${kmToMiles(wind.speed)} mph `;
-            visibilityElement.textContent = `${kmToMiles((visibility) / 1000)} mi`;
+            windElement.textContent = `${getWindDirection(wind.deg)} ${wind.speed} mph `;
+            visibilityElement.textContent = `${visibility / 1000} mi`;
             dateElement.textContent = getFormattedDate();
+            sunriseElement.textContent = new Date(sys.sunrise * 1000).toLocaleTimeString("en-US",  {timeStyle: 'short'});
+            sunsetElement.textContent = new Date(sys.sunset * 1000).toLocaleTimeString("en-US",  {timeStyle: 'short'});
 
             nws(coord);
             
