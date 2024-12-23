@@ -38,6 +38,27 @@
         }
     }
 
+    function getWindDirection(degree) {
+        console.log(degree)
+        if ((degree >= 350 && degree <= 360) || (degree >= 0 && degree <= 10)) return "N";
+        if (degree >= 20 && degree <= 30) return "N/NE";
+        if (degree >= 40 && degree <= 50) return "NE";
+        if (degree >= 60 && degree <= 70) return "E/NE";
+        if (degree >= 80 && degree <= 100) return "E";
+        if (degree >= 110 && degree <= 120) return "E/SE";
+        if (degree >= 130 && degree <= 140) return "SE";
+        if (degree >= 150 && degree <= 160) return "S/SE";
+        if (degree >= 170 && degree <= 190) return "S";
+        if (degree >= 200 && degree <= 210) return "S/SW";
+        if (degree >= 220 && degree <= 230) return "SW";
+        if (degree >= 240 && degree <= 250) return "W/SW";
+        if (degree >= 260 && degree <= 280) return "W";
+        if (degree >= 290 && degree <= 300) return "W/NW";
+        if (degree >= 310 && degree <= 320) return "NW";
+        if (degree >= 330 && degree <= 340) return "N/NW";
+        return ""; // For values outside the valid range
+    }
+
     function nws(coord) {
         const nwsUrl = `https://api.weather.gov/points/${coord.lat},${coord.lon}`;
         // TODO: Set up NWS 
@@ -138,7 +159,7 @@
             temperatureElementLow.textContent = celsiusToFahrenheit(main.temp_min);
             humidityElement.textContent = `${main.humidity}%`;
             pressureElement.textContent = mbToInHg(main.pressure);
-            windElement.textContent = `${kmToMiles(wind.speed)} mph`;
+            windElement.textContent = `${getWindDirection(wind.deg)} ${kmToMiles(wind.speed)} mph `;
             visibilityElement.textContent = `${kmToMiles((visibility) / 1000)} mi`;
             dateElement.textContent = getFormattedDate();
 
