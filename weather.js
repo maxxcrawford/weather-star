@@ -8,21 +8,29 @@
     let state = {
         city: "Tulsa",
         country: "US",
+        zip: "74103",
         units: "imperial"
     }
 
     // Try Local Storage
     if (!localStorage.getItem("city")) {
-        state = {
-            city: "Tulsa"
-        };
-        localStorage.setItem("city", state.city)
+        // No local storage set. Use defaults
+        localStorage.setItem("city", state.name)
+        localStorage.setItem("country", state.country)
+        localStorage.setItem("zip", state.zip)
+        localStorage.setItem("units", state.units)
     } else {
         // state.city = 
         const localStorageCity = localStorage.getItem("city");
         state.city = localStorageCity;
-        console.log("localStorage detected", localStorage.getItem("city"))
-    }    
+        const localStorageCountry = localStorage.getItem("country");
+        state.country = localStorageCountry;
+        const localStorageZip = localStorage.getItem("zip");
+        state.zip = localStorageZip;
+        const localStorageUnits = localStorage.getItem("units");
+        state.units = localStorageUnits;
+        console.log("localStorage detected")
+    }
 
     // Set Modal
     let modalElement = document.querySelector(".modal");
@@ -67,9 +75,10 @@
                 musicButton.classList.toggle("disabled")
             },
             updateCity: async () => {
-                const zipCodeInput = document.getElementById("zipInput");
-                const zipCode = zipCodeInput.value || "74172";
-                const api = `https://api.openweathermap.org/geo/1.0/zip?zip=${zipCode}&appid=${partB}`;
+                const updateCityForm = document.forms.updateCityForm
+                const formData = new FormData(updateCityForm);
+                
+                const api = `https://api.openweathermap.org/geo/1.0/zip?zip=${formData.get("zipCode")},${formData.get("countryOption")}&appid=${partB}`;
                 // TODO: Set up NWS 
                 // https://www.weather.gov/documentation/services-web-api
                 fetch(api)
@@ -77,9 +86,21 @@
                 .then(async (data) => {
                     console.log("updateCity", data)
                     
-                    if (data.name) {
+                    if (data.name && data.zip && data.country) {
+                        // Update Locaal storage
+                        localStorage.setItem("city", data.name)
+                        localStorage.setItem("country", data.country)
+                        localStorage.setItem("zip", data.zip)
+
+                        // Update temp state
                         state.city = data.name
-                        localStorage.setItem("city", state.city)
+                        state.country = data.country
+                        state.zip = data.zip
+
+                        // Units
+                        const isImperial = (data.country === "US") ? "imperial" : "metric";
+                        state.units = isImperial;
+                        localStorage.setItem("units", isImperial)
 
                         try {
                             const data = await app.getData();
@@ -99,8 +120,10 @@
             },
         },
         getData: async () => {
-            // TODO: Update City Event to Set State 
             let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${state.city},${state.country}&appid=${partB}&units=${state.units}`;
+
+            console.log("getData/api", apiUrl)
+
             const data = fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
@@ -135,6 +158,8 @@
             
             // Refresh data
             const tempUnits = (state.units === "imperial" ) ? "ºF" : "ºC";
+            const tempDistanceUnits = (state.units === "imperial" ) ? "mi" : "km";
+            const tempSpeedUnits = (state.units === "imperial" ) ? "mph" : "km/h";
             const { coord, name, main, weather, wind, visibility, sys } = data;
 
             const cityElement = document.querySelector('.js-city');
@@ -159,13 +184,14 @@
             temperatureElementLow.textContent = `${Math.round(main.temp_min)}${tempUnits}`;
             humidityElement.textContent = `${main.humidity}%`;
             pressureElement.textContent = app.utils.mbToInHg(main.pressure);
-            windElement.textContent = `${app.utils.getWindDirection(wind.deg)} ${wind.speed} mph `;
-            visibilityElement.textContent = `${visibility / 1000} mi`;
+            windElement.textContent = `${app.utils.getWindDirection(wind.deg)} ${wind.speed} ${tempSpeedUnits} `;
+            // TODO: Bug not showing miles correctly
+            visibilityElement.textContent = `${visibility / 1000} ${tempDistanceUnits}`;
             dateElement.textContent = app.utils.getFormattedDate();
             sunriseElement.textContent = app.utils.formatDateTime(sys.sunrise * 1000);
             sunsetElement.textContent = app.utils.formatDateTime(sys.sunset * 1000);
 
-            nws(coord);
+            // nws(coord);
             
         },
         utils: {
@@ -218,7 +244,14 @@
                 return new Date(utcTimeNumber).toLocaleTimeString("en-US",  {timeStyle: 'short'});
             },
             kmToMiles: (km) => {
-               return Math.round(km * 0.621371 * 10) / 10;
+                const isImperial = (data.country === "US")
+                
+                if (isImperial) {
+                    return Math.round(km * 0.621371 * 10) / 10;
+                }
+
+                return Math.round(km) / 10;
+               
             },
             mbToInHg: (mb) => {
                return (mb / 33.8639).toFixed(2);
@@ -240,14 +273,14 @@
         closeModalButton = document.getElementById("closeModal");
         closeModalButton.addEventListener("click", modal.close, false);
 
-        const zidSubmitInput = document.getElementById("zipSubmit");
-        zidSubmitInput.addEventListener("click", async (event) => {
+        const updateCityInput = document.getElementById("updateCitySubmit");
+        updateCityInput.addEventListener("click", async (event) => {
             event.preventDefault();
             await app.event.updateCity();
         }, false);
 
-        const zidSubmitForm = document.getElementById("updateCityForm");
-        zidSubmitForm.addEventListener("submit", async (event) => {
+        const updateCityForm = document.getElementById("updateCityForm");
+        updateCityForm.addEventListener("submit", async (event) => {
             event.preventDefault();
             await app.event.updateCity();
         });

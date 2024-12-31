@@ -88,12 +88,23 @@
           <!-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam eveniet fugit, quam, odio aperiam debitis, iste vero enim mollitia cumque saepe. Voluptates vero totam quidem neque sit, illo soluta! Itaque.</h3> -->
         </section>
 
-        <div class="modal text-3xl w-[90%] max-w-sm p-8" autocomplete="off">
-          <form id="updateCityForm" action="">
+        <div class="modal text-3xl w-[90%] max-w-sm p-8">
+          <form id="updateCityForm" action="" method="post">
             <button class="closeModalButton top-4 right-6 absolute" id="closeModal">X</button>
-            <label class="block mb-2" for="city">ZIP Code</label>
-            <input maxlength="5" class="mb-8 block border border-white p-2 w-32" id="zipInput" type="zip" placeholder="12345">
-            <button class="bg-white text-black px-6 py-2 " id="zipSubmit" type="submit">Save</button>
+            <label class="block mb-2" for="zipCode">ZIP Code</label>
+            <input maxlength="5" name="zipCode" required class="mb-8 block border border-white p-2 w-32" id="zipInput" type="text" placeholder="12345" autocomplete="off">
+            <fieldset class="block mb-8">
+              <legend>Which country?</legend>
+              <p class="flex items-center gap-2">
+                <input selected value="US" name="countryOption" type="radio" id="countryUS" />
+                <label for="countryUS">United States</label>
+              </p>
+              <p class="flex items-center gap-2">
+                <input value="CA" name="countryOption" type="radio" id="countryCA" />
+                <label for="countryCA">Candaa</label>
+              </p>
+            </fieldset>
+            <button class="bg-white text-black px-6 py-2 " id="updateCitySubmit" type="submit">Save</button>
           </form>
         </div>        
       </main>
