@@ -77,6 +77,7 @@
             updateCity: async () => {
                 const updateCityForm = document.forms.updateCityForm
                 const formData = new FormData(updateCityForm);
+                const errorMessage = document.querySelector(".js-updateCityForm-error");
                 
                 const api = `https://api.openweathermap.org/geo/1.0/zip?zip=${formData.get("zipCode")},${formData.get("countryOption")}&appid=${partB}`;
                 // TODO: Set up NWS 
@@ -85,6 +86,14 @@
                 .then(response => response.json())
                 .then(async (data) => {
                     console.log("updateCity", data)
+
+                    if (data.cod === "404") {
+                        
+                        errorMessage.classList.remove("hidden");
+                        return;
+                    }
+
+                    errorMessage.classList.add("hidden");
                     
                     if (data.name && data.zip && data.country) {
                         // Update Locaal storage
@@ -192,6 +201,9 @@
             sunsetElement.textContent = app.utils.formatDateTime(sys.sunset * 1000);
 
             // nws(coord);
+
+            // Set Country Title
+            app.utils.setCountryTitle();
             
         },
         utils: {
@@ -255,6 +267,29 @@
             },
             mbToInHg: (mb) => {
                return (mb / 33.8639).toFixed(2);
+            },
+            setCountryTitle: () => {
+                const titleElement = document.querySelector(".js-title")
+                let title = "NAT’L WEATHER SERVICE\u00a0FORECAST"
+                
+                switch (state.country) {
+                    case "AU":
+                        title = "BUREAU OF METEOROLOGY FORECAST"
+                        break;
+                    case "CA":
+                        // title = "PRÉVISIONS DU SERVICE MÉTÉOROLOGIQUE DU CANADA"
+                        title = "METEOROLOGICAL SERVICE FORECAST"
+                        break;
+                    case "DE":
+                        title = "DEUTSCHER WETTERDIENST VORHERSAGE"
+                        break;
+                
+                    default:
+                        break;
+                }
+
+                titleElement.textContent = title;
+
             }
         }
     }

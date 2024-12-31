@@ -26,10 +26,10 @@
 
     <div class="wrapper">
       <!-- Content -->
-      <header class="max-w-screen-lg px-8 mx-auto py-8 pr-24">
+      <header class="max-w-screen-xl px-8 mx-auto py-8 pr-24">
         <button class="js-music disabled absolute sm:fixed right-12 top-2 text-7xl">&#x1D11E;</button>
         <div class="sm:text-center md:bg-[#060d60]/40 py-1">
-          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold italic">
+          <h1 class="js-title text-xl sm:text-2xl md:text-3xl font-bold italic">
             NAT’L WEATHER SERVICE&nbsp;FORECAST
           </h1>
         </div>
@@ -91,21 +91,28 @@
         <div class="modal text-3xl w-[90%] max-w-sm p-8">
           <form id="updateCityForm" action="" method="post">
             <button class="closeModalButton top-4 right-6 absolute" id="closeModal">X</button>
-            <label class="block mb-2" for="zipCode">ZIP Code</label>
+            <div class="js-updateCityForm-error hidden bg-red-600 py-3 mb-2 text-xl text-center">
+              Error: City not&nbsp;found. Please try&nbsp;again.
+            </div>
+            <label class="block mb-2" for="zipCode">ZIP / Postal Code</label>
             <input maxlength="5" name="zipCode" required class="mb-8 block border border-white p-2 w-32" id="zipInput" type="text" placeholder="12345" autocomplete="off">
             <fieldset class="block mb-8">
               <legend>Which country?</legend>
               <p class="flex items-center gap-2">
-                <input selected value="US" name="countryOption" type="radio" id="countryUS" />
-                <label for="countryUS">United States</label>
+                <input value="AU" name="countryOption" type="radio" id="countryAU" />
+                <label for="countryAU">Australia</label>
               </p>
               <p class="flex items-center gap-2">
                 <input value="CA" name="countryOption" type="radio" id="countryCA" />
                 <label for="countryCA">Canada</label>
               </p>
               <p class="flex items-center gap-2">
-                <input value="AU" name="countryOption" type="radio" id="countryAU" />
-                <label for="countryAU">Australia</label>
+                <input value="DE" name="countryOption" type="radio" id="countryDE" />
+                <label for="countryDE">Germany</label>
+              </p>
+              <p class="flex items-center gap-2">
+                <input selected value="US" name="countryOption" type="radio" id="countryUS" />
+                <label for="countryUS">United States</label>
               </p>
             </fieldset>
             <button class="bg-white text-black px-6 py-2 " id="updateCitySubmit" type="submit">Save</button>
